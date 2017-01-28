@@ -5,11 +5,13 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.kersuzananthony.popularmovies.adapters.MoviesAdapter;
 import com.kersuzananthony.popularmovies.models.Movie;
 import com.kersuzananthony.popularmovies.utilities.MoviesJsonUtils;
 import com.kersuzananthony.popularmovies.utilities.NetworkUtils;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final int MOVIE_LOADER_ID = 0;
 
     private RecyclerView mRecyclerView;
+    private MoviesAdapter mMoviesAdapter;
     private TextView mErrorMessageDisplayTextView;
     private ProgressBar mLoadingIndicator;
 
@@ -39,6 +42,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
         mErrorMessageDisplayTextView = (TextView) findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+
+        int recyclerViewOrientation = GridLayoutManager.VERTICAL;
+        boolean shouldReverseLayout = false;
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, recyclerViewOrientation, shouldReverseLayout);
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        /*
+         * Use this setting to improve performance if you know that changes in content do not
+         * change the child layout size in the RecyclerView
+         */
+        mRecyclerView.setHasFixedSize(true);
+
+        /*
+         * The MoviesAdapter is responsible for linking our movies data with the Views that
+         * will end up displaying our weather data.
+         */
+        mMoviesAdapter = new MoviesAdapter();
+
+        /* Setting the adapter attaches it to the RecyclerView in our layout. */
+        mRecyclerView.setAdapter(mMoviesAdapter);
 
         /*
          * This ID will uniquely identify the Loader. We can use it, for example, to get a handle
@@ -136,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
+        mMoviesAdapter.setMovieData(data);
 
         if (data == null) {
             showErrorMessage();

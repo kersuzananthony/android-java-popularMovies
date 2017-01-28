@@ -24,20 +24,16 @@ public final class NetworkUtils {
 
     final static String QUERY_API_PARAM = "api_key";
 
-    public static URL builder(Context context, String baseUrl, String sortOption) {
-        Uri.Builder uriBuilder = Uri.parse(baseUrl).buildUpon();
-
-        // Append sort parameter only if the base url is equal to base movie URL.
-        // Add api_key if the base url is equal to base movie URL
-        if (baseUrl.equals(NetworkUtils.URL_BASE_MOVIES)) {
-            if (sortOption != null && !sortOption.equals("")) {
-                uriBuilder.appendPath(sortOption);
-            }
-
-            uriBuilder.appendQueryParameter(QUERY_API_PARAM, context.getString(R.string.db_movie_api_key));
-        }
-
-        Uri uri = uriBuilder.build();
+    /**
+     * A helper which help us to build the endpoint URL.
+     *
+     * @param context
+     * @param baseUrl       Either URL_BASE_MOVIES or URL_BASE_IMAGE
+     * @param pathOption    It can contain sorting option OR image path
+     * @return URL          URL for making HTTP Request
+     */
+    public static URL builder(Context context, String baseUrl, String pathOption) {
+        Uri uri = buildUri(context, baseUrl, pathOption);
 
         URL url = null;
 
@@ -50,6 +46,28 @@ public final class NetworkUtils {
         Log.d(TAG, "Built URL " + url);
 
         return url;
+    }
+
+    /**
+     * A helper which help us to build the endpoint Uri.
+     *
+     * @param context
+     * @param baseUrl       Either URL_BASE_MOVIES or URL_BASE_IMAGE
+     * @param pathOption    It can contain sorting option OR image path
+     * @return URL          URL for making HTTP Request
+     */
+    public static Uri buildUri(Context context, String baseUrl, String pathOption) {
+        Uri.Builder uriBuilder = Uri.parse(baseUrl).buildUpon();
+
+        if (pathOption != null && !pathOption.equals("")) {
+            uriBuilder.appendEncodedPath(pathOption);
+        }
+
+        if (baseUrl.equals(NetworkUtils.URL_BASE_MOVIES)) {
+            uriBuilder.appendQueryParameter(QUERY_API_PARAM, context.getString(R.string.db_movie_api_key));
+        }
+
+        return uriBuilder.build();
     }
 
     /**
@@ -81,7 +99,7 @@ public final class NetworkUtils {
                 tempBuffer.append(String.copyValueOf(inputBuffer, 0, charRead));
             }
 
-            Log.d(TAG, tempBuffer.toString());
+            Log.v(TAG, tempBuffer.toString());
 
             return tempBuffer.toString();
         } finally {

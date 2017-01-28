@@ -11,12 +11,14 @@ public class Movie {
     final String JSON_ORIGINAL_TITLE = "original_title";
     final String JSON_OVERVIEW = "overview";
     final String JSON_ADULT = "adult";
+    final String JSON_POSTER_PATH = "poster_path";
 
     /* Private fields */
     private String originalTitle;
     private String title;
     private String overview;
     private boolean isAdult;
+    private String posterPath;
 
     /** Constructor
      *
@@ -28,6 +30,7 @@ public class Movie {
         this.originalTitle = movieJsonObject.getString(JSON_ORIGINAL_TITLE);
         this.overview = movieJsonObject.getString(JSON_OVERVIEW);
         this.isAdult = movieJsonObject.getBoolean(JSON_ADULT);
+        this.posterPath = movieJsonObject.getString(JSON_POSTER_PATH);
     }
 
     public String getOriginalTitle() {
@@ -44,6 +47,10 @@ public class Movie {
 
     public boolean isAdult() {
         return isAdult;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
     }
 
     @Override
