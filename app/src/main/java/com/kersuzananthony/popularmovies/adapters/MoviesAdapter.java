@@ -24,14 +24,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
 
     private static final String TAG = MoviesAdapter.class.getSimpleName();
 
-    private final MoviesAdapterOnClickHandler onClickHandler;
+    private final MoviesAdapterOnClickHandler mOnClickHandler;
 
     private ArrayList<Movie> mMovieData;
 
     private Context mContext;
 
     public MoviesAdapter(MoviesAdapterOnClickHandler onClickHandler) {
-        this.onClickHandler = onClickHandler;
+        this.mOnClickHandler = onClickHandler;
     }
 
     /**
@@ -94,7 +94,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
         notifyDataSetChanged();
     }
 
-    class MoviesAdapterViewHolder extends RecyclerView.ViewHolder {
+    class MoviesAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         /* Properties */
         public ImageView mImageView;
@@ -104,6 +104,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
             super(itemView);
 
             mImageView = (ImageView) itemView.findViewById(R.id.movie_list_item_iv_movie_image_view);
+
+            // Add onClickListener
+            itemView.setOnClickListener(this);
         }
 
         /* Helpers for binding a movie to the ViewHolder */
@@ -113,6 +116,12 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
             Picasso.with(this.mImageView.getContext()).load(uri).fit().centerCrop().into(mImageView);
 
             mImageView.setContentDescription(movie.getTitle());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Movie selectedMovie = mMovieData.get(getAdapterPosition());
+            mOnClickHandler.onClick(selectedMovie);
         }
     }
 

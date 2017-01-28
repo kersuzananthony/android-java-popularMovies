@@ -28,7 +28,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        MoviesAdapter.MoviesAdapterOnClickHandler{
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements
          * The MoviesAdapter is responsible for linking our movies data with the Views that
          * will end up displaying our weather data.
          */
-        mMoviesAdapter = new MoviesAdapter();
+        mMoviesAdapter = new MoviesAdapter(this);
 
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mMoviesAdapter);
@@ -271,5 +272,15 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         PREFERENCES_HAVE_BEEN_UPDATED = true;
+    }
+
+    /**
+     * Open detail screen with the requested movie
+     *
+     * @param movie Movie
+     */
+    @Override
+    public void onClick(Movie movie) {
+        Log.d(TAG, movie.getTitle() + " has been selected");
     }
 }
