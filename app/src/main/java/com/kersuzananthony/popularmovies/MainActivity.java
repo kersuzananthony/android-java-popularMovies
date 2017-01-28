@@ -5,7 +5,10 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.kersuzananthony.popularmovies.models.Movie;
 import com.kersuzananthony.popularmovies.utilities.MoviesJsonUtils;
@@ -20,10 +23,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int MOVIE_LOADER_ID = 0;
 
+    private RecyclerView mRecyclerView;
+    private TextView mErrorMessageDisplayTextView;
+    private ProgressBar mLoadingIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /*
+         * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
+         * do things like set the adapter of the RecyclerView and toggle the visibility.
+         */
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
+        mErrorMessageDisplayTextView = (TextView) findViewById(R.id.tv_error_message_display);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         /*
          * This ID will uniquely identify the Loader. We can use it, for example, to get a handle
@@ -68,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
              */
             @Override
             protected void onStartLoading() {
+                mLoadingIndicator.setVisibility(View.VISIBLE);
+
                 if (mMovieData != null) {
                     deliverResult(mMovieData);
                 } else {
@@ -118,7 +135,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      */
     @Override
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
-        Log.d(TAG, "Number of movies " + data.size());
+        mLoadingIndicator.setVisibility(View.INVISIBLE);
+
+        if (data == null) {
+            showErrorMessage();
+        } else {
+            showMoviesDataView();
+        }
     }
 
     /**
@@ -134,5 +157,33 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
          * We aren't using this method in our example application, but we are required to Override
          * it to implement the LoaderCallbacks<String> interface
          */
+    }
+
+    /**
+     * This method will make the View for the movies data visible and
+     * hide the error message.
+     * <p>
+     * Since it is okay to redundantly set the visibility of a View, we don't
+     * need to check whether each view is currently visible or invisible.
+     */
+    private void showMoviesDataView() {
+        /* First, make sure the error is invisible */
+        mErrorMessageDisplayTextView.setVisibility(View.INVISIBLE);
+        /* Then, make sure the weather data is visible */
+        mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method will make the error message visible and hide the movies
+     * View.
+     * <p>
+     * Since it is okay to redundantly set the visibility of a View, we don't
+     * need to check whether each view is currently visible or invisible.
+     */
+    private void showErrorMessage() {
+        /* First, hide the currently visible data */
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        /* Then, show the error */
+        mErrorMessageDisplayTextView.setVisibility(View.VISIBLE);
     }
 }
