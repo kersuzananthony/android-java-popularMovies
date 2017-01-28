@@ -1,11 +1,13 @@
 package com.kersuzananthony.popularmovies.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,11 +26,15 @@ import com.kersuzananthony.popularmovies.utilities.NetworkUtils;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Movie>> {
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<ArrayList<Movie>>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int MOVIE_LOADER_ID = 0;
+
+    private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
 
     private RecyclerView mRecyclerView;
     private MoviesAdapter mMoviesAdapter;
@@ -98,6 +104,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
          */
         getSupportLoaderManager().initLoader(loaderId, bundleForLoader, callback);
 
+        // Listen for preference changes
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (PREFERENCES_HAVE_BEEN_UPDATED) {
+            Log.d(TAG, "onStart(): Preferences have been updated");
+            getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+            PREFERENCES_HAVE_BEEN_UPDATED = false;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unregister listener
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -150,7 +177,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
              */
             @Override
             public ArrayList<Movie> loadInBackground() {
-                String sortOption = "top_rated";
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+
+                String sortOption = sharedPreferences.getString(getString(R.string.pref_sorting_option_key),
+                        getString(R.string.pref_sorting_option_rated));
 
                 URL queryURL = NetworkUtils.builder(MainActivity.this, NetworkUtils.URL_BASE_MOVIES, sortOption);
 
@@ -235,5 +265,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView.setVisibility(View.INVISIBLE);
         /* Then, show the error */
         mErrorMessageDisplayTextView.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        PREFERENCES_HAVE_BEEN_UPDATED = true;
     }
 }

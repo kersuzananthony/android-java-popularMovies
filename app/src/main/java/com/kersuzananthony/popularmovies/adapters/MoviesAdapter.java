@@ -18,11 +18,21 @@ import java.util.ArrayList;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdapterViewHolder> {
 
+    public interface MoviesAdapterOnClickHandler {
+        public void onClick(Movie movie);
+    }
+
     private static final String TAG = MoviesAdapter.class.getSimpleName();
+
+    private final MoviesAdapterOnClickHandler onClickHandler;
 
     private ArrayList<Movie> mMovieData;
 
     private Context mContext;
+
+    public MoviesAdapter(MoviesAdapterOnClickHandler onClickHandler) {
+        this.onClickHandler = onClickHandler;
+    }
 
     /**
      * This gets called when each new ViewHolder is created. This happens when the RecyclerView
