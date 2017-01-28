@@ -220,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMoviesAdapter.setMovieData(data);
 
+        for (Movie movie: data) {
+            Log.d(TAG, movie.toString());
+        }
+
         if (data == null) {
             showErrorMessage();
         } else {
@@ -284,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(Movie movie) {
         Intent startDetailActivityIntent = new Intent(this, DetailActivity.class);
-        startDetailActivityIntent.putExtra(INTENT_MOVIE, movie);
+        startDetailActivityIntent.putExtra(MainActivity.INTENT_MOVIE, movie);
         startActivity(startDetailActivityIntent);
     }
 }

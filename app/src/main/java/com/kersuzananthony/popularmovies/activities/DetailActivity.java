@@ -7,15 +7,27 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kersuzananthony.popularmovies.R;
 import com.kersuzananthony.popularmovies.models.Movie;
+import com.kersuzananthony.popularmovies.utilities.NetworkUtils;
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
     private Movie mMovie;
+
+    /* User Interface class member */
+    private TextView mMovieTitleTextView;
+    private ImageView mMoviePosterImageView;
+    private TextView mMovieDateTextView;
+    private TextView mMovieDurationTextView;
+    private TextView mMovieRateTextView;
+    private TextView mMovieOverviewTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +41,32 @@ public class DetailActivity extends AppCompatActivity {
                 mMovie = startDetailActivityIntent.getParcelableExtra(MainActivity.INTENT_MOVIE);
                 Log.d(TAG, mMovie.toString());
             }
+        }
+
+        /* Link XML UI element to JAVA class */
+        mMovieTitleTextView = (TextView) findViewById(R.id.activity_detail_tv_movie_title);
+        mMoviePosterImageView = (ImageView) findViewById(R.id.activity_detail_iv_movie_poster);
+        mMovieDateTextView = (TextView) findViewById(R.id.activity_detail_tv_movie_date);
+        mMovieDurationTextView = (TextView) findViewById(R.id.activity_detail_tv_movie_duration);
+        mMovieRateTextView = (TextView) findViewById(R.id.activity_detail_tv_movie_rate);
+        mMovieOverviewTextView = (TextView) findViewById(R.id.activity_detail_tv_movie_overview);
+
+        setupLayout();
+    }
+
+    private void setupLayout() {
+        if (mMovie != null) {
+            mMovieTitleTextView.setText(mMovie.getTitle());
+            //mMovieDateTextView.setText(mMovie.getReleaseDate());
+            mMovieDurationTextView.setText(String.valueOf(120) + "min");
+            mMovieRateTextView.setText(String.valueOf(mMovie.getVoteAverage() + "/10"));
+            mMovieOverviewTextView.setText(mMovie.getOverview());
+
+            Picasso.with(mMoviePosterImageView.getContext())
+                    .load(NetworkUtils.buildUri(this, NetworkUtils.URL_BASE_IMAGE, mMovie.getPosterPath()))
+                    .fit()
+                    .centerCrop()
+                    .into(mMoviePosterImageView);
         }
     }
 
