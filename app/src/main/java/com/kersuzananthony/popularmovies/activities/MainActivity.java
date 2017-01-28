@@ -1,5 +1,6 @@
-package com.kersuzananthony.popularmovies;
+package com.kersuzananthony.popularmovies.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -7,10 +8,14 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.kersuzananthony.popularmovies.R;
 import com.kersuzananthony.popularmovies.adapters.MoviesAdapter;
 import com.kersuzananthony.popularmovies.models.Movie;
 import com.kersuzananthony.popularmovies.utilities.MoviesJsonUtils;
@@ -96,6 +101,25 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.movie_menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.action_settings) {
+            Intent startSettingsActivityIntent = new Intent(this, SettingsActivity.class);
+            startActivity(startSettingsActivityIntent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public Loader<ArrayList<Movie>> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<ArrayList<Movie>>(this) {
 
@@ -107,11 +131,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
              */
             @Override
             protected void onStartLoading() {
-                mLoadingIndicator.setVisibility(View.VISIBLE);
+                Log.d(TAG, "onStartLoading");
 
                 if (mMovieData != null) {
                     deliverResult(mMovieData);
                 } else {
+                    mLoadingIndicator.setVisibility(View.VISIBLE);
                     forceLoad();
                 }
             }
