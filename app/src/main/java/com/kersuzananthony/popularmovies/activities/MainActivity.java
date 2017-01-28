@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final String INTENT_MOVIE = MainActivity.class.getSimpleName() + ":INTENT_MOVIE";
+
     private static final int MOVIE_LOADER_ID = 0;
 
     private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
@@ -281,6 +283,8 @@ public class MainActivity extends AppCompatActivity implements
      */
     @Override
     public void onClick(Movie movie) {
-        Log.d(TAG, movie.getTitle() + " has been selected");
+        Intent startDetailActivityIntent = new Intent(this, DetailActivity.class);
+        startDetailActivityIntent.putExtra(INTENT_MOVIE, movie);
+        startActivity(startDetailActivityIntent);
     }
 }
