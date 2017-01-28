@@ -1,8 +1,6 @@
 package com.kersuzananthony.popularmovies.utilities;
 
 
-import android.content.Context;
-
 import com.kersuzananthony.popularmovies.models.Movie;
 
 import org.json.JSONArray;
@@ -13,7 +11,7 @@ import java.util.ArrayList;
 
 public class MoviesJsonUtils {
 
-    public static ArrayList<Movie> getMoviesFromJson(Context context, String movieResultJson) throws JSONException {
+    public static ArrayList<Movie> getMoviesFromJson(String movieResultJson) throws JSONException {
 
         /* Movie information. Each movie's information is an element of the "results" array */
         final String MD_RESULT = "results";

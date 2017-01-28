@@ -7,6 +7,10 @@ import android.util.Log;
 
 import com.kersuzananthony.popularmovies.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -46,5 +50,42 @@ public final class NetworkUtils {
         Log.d(TAG, "Built URL " + url);
 
         return url;
+    }
+
+    /**
+     * This method returns the entire result from the HTTP response.
+     *
+     * @param url The URL to fetch the HTTP response from.
+     * @return The contents of the HTTP response.
+     * @throws IOException Related to network and stream reading
+     */
+    public static String getResponseFromHttpUrl(URL url) throws IOException {
+        StringBuilder tempBuffer = new StringBuilder();
+
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            InputStream in = urlConnection.getInputStream();
+
+            InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+            int charRead;
+            char[] inputBuffer = new char[500];
+
+            while (true) {
+                charRead = inputStreamReader.read(inputBuffer);
+
+                if (charRead <= 0) {
+                    break; // Break the loop
+                }
+
+                tempBuffer.append(String.copyValueOf(inputBuffer, 0, charRead));
+            }
+
+            Log.d(TAG, tempBuffer.toString());
+
+            return tempBuffer.toString();
+        } finally {
+            urlConnection.disconnect();
+        }
     }
 }

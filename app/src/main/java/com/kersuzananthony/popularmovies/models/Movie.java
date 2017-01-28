@@ -45,4 +45,10 @@ public class Movie {
     public boolean isAdult() {
         return isAdult;
     }
+
+    @Override
+    public String toString() {
+        return "Movie Title: " + this.title + "\n"
+                + "Movie Overview: " + this.overview;
+    }
 }
