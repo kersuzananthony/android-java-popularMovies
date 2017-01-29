@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity implements
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
          * do things like set the adapter of the RecyclerView and toggle the visibility.
          */
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_movies);
-        mErrorMessageDisplayTextView = (TextView) findViewById(R.id.tv_error_message_display);
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mRecyclerView = (RecyclerView) findViewById(R.id.activity_main_recycler_view_movies);
+        mErrorMessageDisplayTextView = (TextView) findViewById(R.id.activity_main_tv_error_message_display);
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.activity_main_pb_loading_indicator);
 
         int recyclerViewOrientation = GridLayoutManager.VERTICAL;
         boolean shouldReverseLayout = false;
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements
                 try {
                     String movieResponseJson = NetworkUtils.getResponseFromHttpUrl(queryURL);
 
-                    return MoviesJsonUtils.getMoviesFromJson(movieResponseJson);
+                    return movieResponseJson == null ? null : MoviesJsonUtils.getMoviesFromJson(movieResponseJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -219,10 +219,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<ArrayList<Movie>> loader, ArrayList<Movie> data) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMoviesAdapter.setMovieData(data);
-
-        for (Movie movie: data) {
-            Log.d(TAG, movie.toString());
-        }
 
         if (data == null) {
             showErrorMessage();

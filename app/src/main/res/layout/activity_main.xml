@@ -6,14 +6,14 @@
     tools:context="com.kersuzananthony.popularmovies.activities.MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_movies"
+        android:id="@+id/activity_main_recycler_view_movies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
     <TextView
-        android:id="@+id/tv_error_message_display"
+        android:id="@+id/activity_main_tv_error_message_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -22,7 +22,7 @@
         android:visibility="invisible" />
 
     <ProgressBar
-        android:id="@+id/pb_loading_indicator"
+        android:id="@+id/activity_main_pb_loading_indicator"
         android:layout_height="42dp"
         android:layout_width="42dp"
         android:layout_gravity="center"

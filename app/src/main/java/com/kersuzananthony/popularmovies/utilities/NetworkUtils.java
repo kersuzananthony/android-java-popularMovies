@@ -78,6 +78,12 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
+        // Prevents request if the user's device is offline
+        if (!NetworkUtils.isDeviceOnline()) {
+            Log.d(TAG, "User device is offline");
+            return null;
+        }
+
         StringBuilder tempBuffer = new StringBuilder();
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -105,5 +111,26 @@ public final class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
+    }
+
+
+    /**
+     * Methods that check if the device is online
+     * See details on the implementation on StackOverflow website
+     * http://stackoverflow.com/questions/1560788/how-to-check-internet-access-on-android-inetaddress-never-times-out
+     *
+     * @return boolean
+     */
+    public static boolean isDeviceOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

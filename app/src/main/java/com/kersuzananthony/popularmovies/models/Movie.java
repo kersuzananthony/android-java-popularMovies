@@ -85,7 +85,11 @@ public class Movie implements Parcelable {
     }
 
     public String getReleaseDate() {
-        return mReleaseDate.substring(0, Math.min(0 + 4, mReleaseDate.length()));
+        if (mReleaseDate != null) {
+            return mReleaseDate.substring(0, Math.min(0 + 4, mReleaseDate.length()));
+        } else {
+            return null;
+        }
     }
 
     @Override
