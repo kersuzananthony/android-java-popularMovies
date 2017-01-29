@@ -17,25 +17,25 @@
             <TextView
                 android:id="@+id/activity_detail_tv_movie_title"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="@dimen/detail_activity_title_box_height"
                 android:background="@color/detailMainColor"
                 android:text="Title"
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="@dimen/activity_xlarge_text_size"
                 android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingRight="16dp"/>
+                android:paddingLeft="@dimen/activity_horizontal_padding"
+                android:paddingStart="@dimen/activity_horizontal_padding"
+                android:paddingEnd="@dimen/activity_horizontal_padding"
+                android:paddingRight="@dimen/activity_horizontal_padding"/>
 
             <ImageView
                 android:id="@+id/activity_detail_iv_movie_poster"
-                android:layout_width="140dp"
-                android:layout_height="210dp"
+                android:layout_width="@dimen/activity_poster_default_width"
+                android:layout_height="@dimen/activity_poster_default_height"
                 android:layout_below="@id/activity_detail_tv_movie_title"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp" />
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
             <LinearLayout
                 android:id="@+id/activity_detail_ll_movie_detail"
@@ -45,15 +45,15 @@
                 android:layout_toRightOf="@id/activity_detail_iv_movie_poster"
                 android:layout_toEndOf="@id/activity_detail_iv_movie_poster"
                 android:layout_alignTop="@id/activity_detail_iv_movie_poster"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp">
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:id="@+id/activity_detail_tv_movie_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2016"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/activity_large_text_size"
                     android:textColor="@color/detailTextColor" />
 
                 <TextView
@@ -61,18 +61,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="120min"
-                    android:textSize="15sp"
+                    android:textSize="@dimen/activity_default_text_size"
                     android:textColor="@color/detailTextColor"
-                    android:layout_marginTop="8dp"/>
+                    android:layout_marginTop="@dimen/activity_vertical_margin_reduced"/>
 
                 <TextView
                     android:id="@+id/activity_detail_tv_movie_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="8.1/10"
-                    android:textSize="12sp"
+                    android:textSize="@dimen/activity_small_text_size"
                     android:textColor="@android:color/black"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin_reduced"
                     />
 
                 <Button
@@ -80,14 +80,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mark_as_favorite"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/activity_small_text_size"
                     android:textColor="@android:color/white"
                     android:background="@color/detailMainColor"
-                    android:paddingLeft="8dp"
-                    android:paddingStart="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingEnd="8dp"
-                    android:layout_marginTop="8dp"/>
+                    android:paddingLeft="@dimen/activity_horizontal_padding_reduced"
+                    android:paddingStart="@dimen/activity_horizontal_padding_reduced"
+                    android:paddingRight="@dimen/activity_horizontal_padding_reduced"
+                    android:paddingEnd="@dimen/activity_horizontal_padding_reduced"
+                    android:layout_marginTop="@dimen/activity_vertical_margin_reduced"/>
 
             </LinearLayout>
 
@@ -96,15 +96,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Overview"
-                android:textSize="15sp"
+                android:textSize="@dimen/activity_default_text_size"
                 android:textColor="@color/detailTextColor"
                 android:layout_below="@id/activity_detail_iv_movie_poster"
-                android:paddingRight="16dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"/>
+                android:paddingRight="@dimen/activity_horizontal_padding"
+                android:paddingEnd="@dimen/activity_horizontal_padding"
+                android:paddingStart="@dimen/activity_horizontal_padding"
+                android:paddingLeft="@dimen/activity_horizontal_padding"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
 
         </RelativeLayout>
 

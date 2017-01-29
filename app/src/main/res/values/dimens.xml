@@ -2,4 +2,24 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_padding">16dp</dimen>
+    <dimen name="activity_vertical_padding">16dp</dimen>
+    <dimen name="progress_bar_dim">42dp</dimen>
+
+    <dimen name="activity_small_text_size">12sp</dimen>
+    <dimen name="activity_default_text_size">16sp</dimen>
+    <dimen name="activity_large_text_size">20sp</dimen>
+    <dimen name="activity_xlarge_text_size">30sp</dimen>
+
+    <!-- Detail Activity -->
+    <dimen name="detail_activity_title_box_height">100dp</dimen>
+
+    <!-- Poster dimension -->
+    <dimen name="activity_poster_default_width">140dp</dimen>
+    <dimen name="activity_poster_default_height">210dp</dimen>
+
+    <dimen name="activity_horizontal_margin_reduced">8dp</dimen>
+    <dimen name="activity_vertical_margin_reduced">8dp</dimen>
+    <dimen name="activity_horizontal_padding_reduced">8dp</dimen>
+    <dimen name="activity_vertical_padding_reduced">8dp</dimen>
 </resources>

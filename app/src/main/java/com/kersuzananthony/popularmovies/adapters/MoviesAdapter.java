@@ -113,9 +113,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesAdap
         public void bind(Movie movie) {
             Uri uri = NetworkUtils.buildUri(mContext, NetworkUtils.URL_BASE_IMAGE, movie.getPosterPath());
 
-            if (NetworkUtils.isDeviceOnline()) {
-                Picasso.with(this.mImageView.getContext()).load(uri).fit().centerCrop().into(mImageView);
-            }
+            Picasso.with(this.mImageView.getContext())
+                    .load(uri)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder_error)
+                    .fit()
+                    .centerCrop()
+                    .into(mImageView);
 
             mImageView.setContentDescription(movie.getTitle());
         }

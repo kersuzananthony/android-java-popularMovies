@@ -1,5 +1,6 @@
 package com.kersuzananthony.popularmovies.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements
     public static final String INTENT_MOVIE = MainActivity.class.getSimpleName() + ":INTENT_MOVIE";
 
     private static final int MOVIE_LOADER_ID = 0;
+    private static final float COLUMN_WIDTH = 180;
 
     private static boolean PREFERENCES_HAVE_BEEN_UPDATED = false;
 
@@ -62,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements
         int recyclerViewOrientation = GridLayoutManager.VERTICAL;
         boolean shouldReverseLayout = false;
 
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2, recyclerViewOrientation, shouldReverseLayout);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, calculateNoOfColumns(this), recyclerViewOrientation, shouldReverseLayout);
         mRecyclerView.setLayoutManager(layoutManager);
 
         /*
@@ -154,6 +157,21 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Calculate number of columns for gridLayout
+     * Stackoverflow reference:
+     * http://stackoverflow.com/questions/33575731/gridlayoutmanager-how-to-auto-fit-columns
+     *
+     * @param context Context
+     * @return int
+     */
+    public int calculateNoOfColumns(Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (dpWidth / COLUMN_WIDTH);
+        return noOfColumns;
     }
 
     /**

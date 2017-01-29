@@ -71,13 +71,13 @@ public class DetailActivity extends AppCompatActivity {
             mMovieRateTextView.setText(String.valueOf(mMovie.getVoteAverage() + "/10"));
             mMovieOverviewTextView.setText(mMovie.getOverview());
 
-            if (NetworkUtils.isDeviceOnline()) {
-                Picasso.with(mMoviePosterImageView.getContext())
-                        .load(NetworkUtils.buildUri(this, NetworkUtils.URL_BASE_IMAGE, mMovie.getPosterPath()))
-                        .fit()
-                        .centerCrop()
-                        .into(mMoviePosterImageView);
-            }
+            Picasso.with(mMoviePosterImageView.getContext())
+                    .load(NetworkUtils.buildUri(this, NetworkUtils.URL_BASE_IMAGE, mMovie.getPosterPath()))
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder_error)
+                    .fit()
+                    .centerCrop()
+                    .into(mMoviePosterImageView);
         }
     }
 
