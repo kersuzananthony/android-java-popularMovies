@@ -30,6 +30,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mMovieOverviewTextView;
 
     /**
+     * OnCreate lifecycle
+     * We check if the intent contains the Movie item and assigns it to the member variable
+     *
      * @param savedInstanceState
      */
     @Override
@@ -57,6 +60,9 @@ public class DetailActivity extends AppCompatActivity {
         setupLayout();
     }
 
+    /**
+     * Methods for updating the UI according to the Movie saved in the member variable
+     */
     private void setupLayout() {
         if (mMovie != null) {
             mMovieTitleTextView.setText(mMovie.getTitle());
@@ -75,6 +81,12 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create menu from XML file
+     *
+     * @param menu Menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -83,6 +95,12 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Answers to the menu select event
+     *
+     * @param item MenuItem
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {

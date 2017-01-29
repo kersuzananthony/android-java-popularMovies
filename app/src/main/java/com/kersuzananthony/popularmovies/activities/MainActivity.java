@@ -156,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Methods which make adapter data null.
+     */
     private void invalidateData() {
         mMoviesAdapter.setMovieData(null);
     }
