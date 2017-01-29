@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d(TAG, "onCreate()");
+
         /*
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
          * do things like set the adapter of the RecyclerView and toggle the visibility.
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.movie_menu, menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
 
         return true;
     }
@@ -144,9 +146,18 @@ public class MainActivity extends AppCompatActivity implements
         if (itemId == R.id.action_settings) {
             Intent startSettingsActivityIntent = new Intent(this, SettingsActivity.class);
             startActivity(startSettingsActivityIntent);
+            return true;
+        } else if (itemId == R.id.action_refresh) {
+            invalidateData();
+            getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void invalidateData() {
+        mMoviesAdapter.setMovieData(null);
     }
 
     @Override
@@ -163,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements
             protected void onStartLoading() {
                 Log.d(TAG, "onStartLoading");
 
-                if (mMovieData != null) {
+                if (mMovieData != null && mMovieData.size() > 0) {
                     deliverResult(mMovieData);
                 } else {
                     mLoadingIndicator.setVisibility(View.VISIBLE);
@@ -180,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements
              */
             @Override
             public ArrayList<Movie> loadInBackground() {
+                Log.d(TAG, "AsyncTaskLoader() - LoadInBackground()");
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
                 String sortOption = sharedPreferences.getString(getString(R.string.pref_sorting_option_key),
@@ -190,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements
                 try {
                     String movieResponseJson = NetworkUtils.getResponseFromHttpUrl(queryURL);
 
-                    return movieResponseJson == null ? null : MoviesJsonUtils.getMoviesFromJson(movieResponseJson);
+                    return movieResponseJson == null ? new ArrayList<Movie>() : MoviesJsonUtils.getMoviesFromJson(movieResponseJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
@@ -202,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements
              *
              * @param data The result of the load
              */
+            @Override
             public void deliverResult(ArrayList<Movie> data) {
                 mMovieData = data;
                 super.deliverResult(data);
@@ -220,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMoviesAdapter.setMovieData(data);
 
-        if (data == null) {
+        if (data.size() == 0) {
             showErrorMessage();
         } else {
             showMoviesDataView();
