@@ -62,11 +62,13 @@ public class DetailActivity extends AppCompatActivity {
             mMovieRateTextView.setText(String.valueOf(mMovie.getVoteAverage() + "/10"));
             mMovieOverviewTextView.setText(mMovie.getOverview());
 
-            Picasso.with(mMoviePosterImageView.getContext())
-                    .load(NetworkUtils.buildUri(this, NetworkUtils.URL_BASE_IMAGE, mMovie.getPosterPath()))
-                    .fit()
-                    .centerCrop()
-                    .into(mMoviePosterImageView);
+            if (NetworkUtils.isDeviceOnline()) {
+                Picasso.with(mMoviePosterImageView.getContext())
+                        .load(NetworkUtils.buildUri(this, NetworkUtils.URL_BASE_IMAGE, mMovie.getPosterPath()))
+                        .fit()
+                        .centerCrop()
+                        .into(mMoviePosterImageView);
+            }
         }
     }
 
