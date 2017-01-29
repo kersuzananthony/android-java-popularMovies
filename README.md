@@ -6,6 +6,6 @@ To make use of https://www.themoviedb.org/documentation/api, please register an 
 ``` XML
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="db_movie_api_key">YOUR_API_KEY/string>
+    <string name="db_movie_api_key">YOUR_API_KEY</string>
 </resources>
 ```
