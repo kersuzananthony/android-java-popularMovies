@@ -29,6 +29,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mMovieRateTextView;
     private TextView mMovieOverviewTextView;
 
+    /**
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
