@@ -11,12 +11,6 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-
 plugins {
   id "org.sonarqube" version "3.3"
 }
@@ -27,6 +21,12 @@ sonarqube {
     property "sonar.organization", "kersuzananthony"
     property "sonar.host.url", "https://sonarcloud.io"
   }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
 }
 
 task clean(type: Delete) {
